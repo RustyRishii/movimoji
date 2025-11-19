@@ -90,7 +90,6 @@ export default function Home() {
               />
             </div>
 
-
             <button
               onClick={() => EmojiCall()}
               disabled={!text || text.trim() === '' || isLoading}
@@ -121,7 +120,7 @@ export default function Home() {
 
         <p className="text-center text-sm font-bold text-black mt-12 bg-white inline-block mx-auto border-2 border-black px-4 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           BUILT BY
-          <a target="_blank" href="https://x.com/RustyRishii" className="text-blue-600 hover:text-blue-800 underline decoration-4 decoration-yellow-400 underline-offset-4 ml-1"> @RUSTYRISHII</a>
+          <a target="_blank" href="https://rishi.fyi/" className="text-blue-600 hover:text-blue-800 underline decoration-4 decoration-yellow-400 underline-offset-4 ml-1"> @RUSTYRISHII</a>
         </p>
       </div>
     </div>
