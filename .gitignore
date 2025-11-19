@@ -10,14 +10,16 @@
 !.yarn/releases
 !.yarn/versions
 
-.open-next/
-
 # testing
 /coverage
 
 # next.js
 /.next/
 /out/
+
+# open-next (Cloudflare)
+/.open-next/
+.worker-next/
 
 # production
 /build
