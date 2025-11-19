@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Modern_Antiqua } from "next/font/google";
@@ -10,11 +9,15 @@ export default function Home() {
   const [text, setText] = useState("");
 
   const [answer, setAnswer] = useState("")
-  // console.log("🔒 Nice try! API key is secure 🔐");
+
+  useEffect(() => {
+    console.log(
+      "%c Trying to find the API key huh?! Good luck lol ",
+      "color: white; background: #111; padding: 10px 20px; font-size: 12px; border-radius: 8px; font-weight: bold;"
+    );
+  }, [])
 
   async function EmojiCall() {
-
-
     try {
       const response = await fetch('/api/emoji', {
         method: 'POST',
@@ -65,11 +68,6 @@ export default function Home() {
     //   console.error('Error:', error)
     // }
   }
-
-  console.log(
-    "%c Trying to find the API key huh?! Good luck lol ",
-    "color: white; background: #111; padding: 10px 20px; font-size: 18px; border-radius: 8px; font-weight: bold;"
-  );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
