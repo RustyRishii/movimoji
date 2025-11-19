@@ -7,8 +7,8 @@ import { Modern_Antiqua } from "next/font/google";
 export default function Home() {
 
   const [text, setText] = useState("");
-
-  const [answer, setAnswer] = useState("")
+  const [answer, setAnswer] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     console.log(
@@ -17,7 +17,14 @@ export default function Home() {
     );
   }, [])
 
+
+
   async function EmojiCall() {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setAnswer(""); // Optional: Clear previous answer while loading
+
     try {
       const response = await fetch('/api/emoji', {
         method: 'POST',
@@ -33,82 +40,78 @@ export default function Home() {
 
     } catch (error) {
       console.error('Error:', error)
+    } finally {
+      setIsLoading(false);
     }
+  }
 
-    // const url = "https://openrouter.ai/api/v1/chat/completions"
-    // try {
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENROUTER_API_KEY}`,
-    //       'Content-Type': 'application/json',
 
-    //     },
-    //     body: JSON.stringify({
-    //       model: 'anthropic/claude-haiku-4.5',
-    //       messages: [
-    //         {
-    //           role: 'user',
-    //           content: `Your job is to convert the give text into emojis. Max 10 emojis
-    //           If the user types a movie or TV show name, make sure to include the summary of it, But only in emojis. Not text ay all.di
-    //           Only and Only emojis. No text respose at all. No matter what happens, you do not write any text in the response at all.
-    //           THIS IS A STRICT INSTRUCTION, YOU HAVE TO FOLLOW IT, OR ELSE YOU WILL BE FIRED. ${text}`
-    //         },
-    //       ],
-
-    //     })
-    //   })
-
-    //   const data = await response.json()
-
-    //   const mainAnswer = data.choices[0].message.content;
-    //   setAnswer(mainAnswer)
-    //   console.log(data.choices[0].message.content)
-    // } catch (error) {
-    //   console.error('Error:', error)
-    // }
+  const handleEnterKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && text && text.trim() !== '' && !isLoading) {
+      EmojiCall();
+    }
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#E0E7FF] px-4 font-mono">
       <div className="w-full max-w-2xl">
 
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-3">
+          <h1 className="text-6xl font-black text-black mb-4 uppercase tracking-wider" style={{ textShadow: "4px 4px 1px #1e40af", }}>
             movimoji 🎬
           </h1>
-          <p className="text-lg text-gray-600">
-            Transform your text into expressive emojis
-          </p>
+          <div className="inline-block bg-white border-4 border-black p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <p className="text-xl text-black font-bold">
+              MOVIE/TV NAMES ➡️ EMOJIS
+            </p>
+          </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12">
-          <div className="flex flex-col items-center gap-6">
+        <div className="bg-[#FF90E8] border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 md:p-12 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute top-4 right-4 w-8 h-8 bg-yellow-400 border-4 border-black rounded-full"></div>
+          <div className="absolute bottom-4 left-4 w-6 h-6 bg-blue-400 border-4 border-black transform rotate-45"></div>
 
-            <input
-              autoFocus={true}
-              onChange={(e) => setText(e.target.value)}
-              className="w-full p-4 text-xl text-center border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors placeholder:text-gray-400"
-              type="text"
-              placeholder="Enter a movie title or any text..."
-            />
+          <div className="flex flex-col items-center gap-8 relative z-10">
+
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-lg uppercase">Input Text</label>
+              <input
+                autoFocus={true}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={handleEnterKey}
+                disabled={isLoading}
+                className={`w-full p-4 text-xl font-bold border-4 border-black focus:outline-none transition-all placeholder:text-gray-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[2px] focus:translate-y-[2px] ${isLoading
+                  ? 'bg-gray-200 cursor-not-allowed text-gray-500'
+                  : 'bg-white text-black'
+                  }`}
+                type="text"
+                placeholder="ENTER MOVIE TITLE..."
+              />
+            </div>
 
 
             <button
               onClick={() => EmojiCall()}
-              disabled={!text || text.trim() === ''}
-              className={`w-full md:w-auto px-8 py-4 text-lg font-semibold rounded-xl transition-colors duration-200 shadow-md ${!text || text.trim() === ''
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-lg cursor-pointer'
+              disabled={!text || text.trim() === '' || isLoading}
+              className={`w-full px-8 py-4 text-xl font-black uppercase border-4 border-black transition-all duration-200 ${!text || text.trim() === '' || isLoading
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed shadow-none'
+                : 'bg-[#FFDE59] hover:bg-[#FFD54F] text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[8px] active:translate-y-[8px] active:shadow-none cursor-pointer'
                 }`}
             >
-              Generate Emojis ✨
+              {isLoading ? 'GENERATING... ⏳' : 'GENERATE '}
             </button>
 
 
             {answer && (
-              <div className="w-full mt-4 p-8 bg-gray-50 rounded-2xl border-2 border-gray-100">
-                <p className="text-5xl text-center leading-relaxed">
+              <div
+                onClick={() => navigator.clipboard.writeText(answer)}
+                className="w-full mt-4 p-8 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-gray-50 transition-colors group relative"
+              >
+                <div className="absolute -top-5 -right-5 bg-[#23C55E] text-white font-bold px-3 py-1 border-4 border-black transform rotate-12 hidden group-hover:block">
+                  COPY!
+                </div>
+                <p className="text-5xl text-center leading-relaxed animate-in fade-in zoom-in duration-300">
                   {answer}
                 </p>
               </div>
@@ -116,9 +119,9 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-8">
-          Built by
-          <a target="_blank" href="https://x.com/RustyRishii"> @RustyRishii</a>
+        <p className="text-center text-sm font-bold text-black mt-12 bg-white inline-block mx-auto border-2 border-black px-4 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          BUILT BY
+          <a target="_blank" href="https://x.com/RustyRishii" className="text-blue-600 hover:text-blue-800 underline decoration-4 decoration-yellow-400 underline-offset-4 ml-1"> @RUSTYRISHII</a>
         </p>
       </div>
     </div>
