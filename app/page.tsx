@@ -106,12 +106,12 @@ export default function Home() {
             {answer && (
               <div
                 onClick={() => navigator.clipboard.writeText(answer)}
-                className="w-full mt-4 p-8 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-gray-50 transition-colors group relative"
+                className="w-full mt-1 p-1 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-gray-50 transition-colors group relative"
               >
                 <div className="absolute -top-5 -right-5 bg-[#23C55E] text-white font-bold px-3 py-1 border-4 border-black transform rotate-12 hidden group-hover:block">
                   COPY!
                 </div>
-                <p className="text-5xl text-center leading-relaxed animate-in fade-in zoom-in duration-300">
+                <p className="text-4xl text-center leading-relaxed animate-in fade-in zoom-in duration-300">
                   {answer}
                 </p>
               </div>
