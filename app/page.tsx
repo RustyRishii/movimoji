@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     console.log(
-      "%c Trying to find the API key huh?! Good luck lol ",
+      "%c Trying to find the API key huh?! Let me know if you find it. x.com/rustyrishii ",
       "color: white; background: #111; padding: 10px 20px; font-size: 12px; border-radius: 8px; font-weight: bold;"
     );
   }, [])
