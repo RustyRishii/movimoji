@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://movimoji.rustyrishii.workers.dev"), // TODO: Replace with your actual deployment URL
   title: "Movimoji 🎬",
   description: "Convert movie and TV show names into emojis with AI.",
   twitter: {
