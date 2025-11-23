@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -12,8 +13,6 @@ export default function Home() {
             "color: white; background: #111; padding: 10px 20px; font-size: 12px; border-radius: 8px; font-weight: bold;"
         );
     }, [])
-
-
 
     async function EmojiCall() {
         if (isLoading) return;
