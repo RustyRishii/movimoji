@@ -5,6 +5,7 @@ export default function Home() {
   const [text, setText] = useState("");
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     console.log(
@@ -29,8 +30,8 @@ export default function Home() {
       });
 
       const data = await response.json();
-      console.log(data);
-      console.log(data.answer);
+      // console.log(data);
+      // console.log(data.answer);
       setAnswer(data.answer);
     } catch (error) {
       console.error("Error:", error);
@@ -43,6 +44,12 @@ export default function Home() {
     if (e.key === "Enter" && text && text.trim() !== "" && !isLoading) {
       EmojiCall();
     }
+  };
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(answer);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -101,17 +108,22 @@ export default function Home() {
 
             {answer && (
               <div
-                onClick={() => navigator.clipboard.writeText(answer)}
+                onClick={handleCopy}
                 className="w-full mt-1 p-2 md:p-1 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-gray-50 transition-colors group relative"
               >
-                <div className="absolute -top-3 -right-2 md:-top-5 md:-right-5 bg-[#23C55E] text-white font-bold px-2 py-1 md:px-3 md:py-1 text-xs md:text-base border-4 border-black transform rotate-12 hidden group-hover:block z-20">
-                  COPY!
+                <div
+                  className={`absolute -top-3 -right-2 md:-top-5 md:-right-5 bg-[#23C55E] text-white font-bold px-2 py-1 md:px-3 md:py-1 text-xs md:text-base border-4 border-black transform rotate-12 z-20 ${
+                    copied ? "block" : "hidden group-hover:block"
+                  }`}
+                >
+                  {copied ? "COPIED!" : "COPY!"}
                 </div>
                 <p className="text-3xl md:text-4xl text-center leading-relaxed animate-in fade-in zoom-in duration-300 break-words p-4">
                   {answer}
                 </p>
               </div>
             )}
+            <div>{copied ? "Copied!" : "Tap to copy"}</div>
           </div>
         </div>
 
