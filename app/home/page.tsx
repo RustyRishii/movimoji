@@ -123,7 +123,7 @@ export default function Home() {
                 </p>
               </div>
             )}
-            <div>{copied ? "Copied!" : "Tap to copy"}</div>
+            {answer && <div>{copied ? "Copied!" : "Tap to copy"}</div>}
           </div>
         </div>
 
